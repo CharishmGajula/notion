@@ -6,11 +6,15 @@ import { MdOutlineMail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import {  signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
+import { useUser } from '../Context/useContext';
+
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const navigate=useNavigate();
+  const {setToken,setUser}=useUser();
   function checkData()
   {
     if(email=="")
@@ -23,7 +27,6 @@ export default function Login() {
         setErr("Please enter a valid email Id");
         return false;
     }
-
     if(password=="")
     {
         setErr("Please Enter the password");
@@ -34,11 +37,9 @@ export default function Login() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    checkData();
+    if (!checkData()) return;
     try{
-        console.log("hey");
         const cred=await signInWithEmailAndPassword(auth,email,password);
-        console.log("lol");
         const tokenId=await cred.user.getIdToken();
         console.log(tokenId);
         const fetchJwt=await fetch("http://localhost:5005/api/auth/login",
@@ -50,17 +51,26 @@ export default function Login() {
                 },
                 body:JSON.stringify({tokenId}),
             }
-        )
+        );
         const data=await fetchJwt.json();
         console.log(data);
+        localStorage.setItem("jwtToken",data.token);
+        setToken(data.token);
+        setUser(
+            {
+                name: data.name,
+                email: data.email,
+                uid: data.uid,
+                role: data.role,
+            }
+        )
         navigate("/dashboard");
     }
-    catch
+    catch(err)
     {
-
+        console.log(err);
     }
-  }
-
+}
   return (
     <>
       <NavbarsignUp button="SignUp" />
