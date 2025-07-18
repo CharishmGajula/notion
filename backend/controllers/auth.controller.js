@@ -73,6 +73,20 @@ export async function registerUser(req,res)
         role: "owner",
         createdAt: admin.firestore.FieldValue.serverTimestamp(), 
     });
+    const defaultPageRef = admin.firestore().collection("pages").doc();
+
+    await defaultPageRef.set({
+    pageId: defaultPageRef.id,
+    title: "Getting Started",
+    ownerId: uid,
+    sharedWith: {},
+    content: [],
+    parentPageId: null,
+    isTrashed: false,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    updatedAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+
     return res.status(201).json({
         message: "User registered successfully",
         uid,

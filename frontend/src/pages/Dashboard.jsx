@@ -1,14 +1,56 @@
-import React from 'react';
-import { useUser } from '../Context/useContext';
+import React, { useState, useRef, useEffect } from 'react';
+import Sidebar from '../Components/Sidebar';
+import BlockEditor2 from '../Components/BlockEditor2';
 
 export default function Dashboard() {
-  const { user } = useUser();
+  const [sidebarWidth, setSidebarWidth] = useState(200);
+  const resizerRef = useRef(null);
+  const isDragging = useRef(false);
+
+  const startResizing = () => {
+    isDragging.current = true;
+  };
+
+  const stopResizing = () => {
+    isDragging.current = false;
+  };
+
+  const resize = (e) => {
+    if (isDragging.current) {
+      const newWidth = e.clientX;
+      if (newWidth > 150 && newWidth < 330) {
+        setSidebarWidth(newWidth);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResizing);
+    return () => {
+      window.removeEventListener('mousemove', resize);
+      window.removeEventListener('mouseup', stopResizing);
+    };
+  }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Welcome, {user?.name}</h1>
-      <p>Email: {user?.email}</p>
-      <p>Role: {user?.role}</p>
+    <div className="flex h-screen w-full bg-black text-white">
+      <aside
+        className="bg-black h-full relative border-r border-gray-800"
+        style={{ width: `${sidebarWidth}px` }}
+      >
+        <Sidebar />
+
+        <div
+          ref={resizerRef}
+          onMouseDown={startResizing}
+          className="absolute top-0 right-0 h-full w-1 cursor-col-resize bg-gray-700 hover:bg-white transition-all"
+        />
+      </aside>
+
+      <main className="flex-1 bg-white text-black overflow-y-auto  py-12 transition-all duration-300">
+        <BlockEditor2 defaultTitle="Getting Started" />
+      </main>
     </div>
   );
 }

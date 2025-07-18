@@ -64,7 +64,8 @@ export default function Login() {
                 role: data.role,
             }
         )
-        navigate("/dashboard");
+        console.log(data.token);
+        navigate("/home");
     }
     catch(err)
     {

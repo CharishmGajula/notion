@@ -12,7 +12,6 @@ app.use("/api/auth",authRouter);
 app.use("/api/pages",pageRouter);
 const port=process.env.PORT|| 5005;
 
-
 app.listen(port,()=>
 {
     console.log(`Hurray your server running!! on the port ${port}`);

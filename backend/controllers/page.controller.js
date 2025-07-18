@@ -31,6 +31,7 @@ export async function createPage(req,res)
       content: [],
       parentPageId,
       isTrashed:false,
+      isDefault:true,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     };
@@ -51,7 +52,6 @@ export async function updatePage(req, res) {
     const { pageId } = req.params;
     const { title, content } = req.body;
 
-    // Validation (optional)
     if (!title && !content) {
       return res.status(400).json({ error: "Nothing to update" });
     }
@@ -93,7 +93,21 @@ export async function getPage(req, res) {
       return res.status(404).json({ error: "Page not found" });
     }
 
-    return res.status(200).json({ page: pageDoc.data() });
+    const childSnap = await admin.firestore()
+      .collection("pages")
+      .where("parentPageId", "==", pageId)
+      .where("isTrashed", "==", false)
+      .get();
+
+    const children = childSnap.docs.map((doc) => ({
+      pageId: doc.id,
+      ...doc.data(),
+    }));
+
+    return res.status(200).json({
+      page: { pageId, ...pageDoc.data() },
+      children,
+    });
 
   } catch (err) {
     console.error("Failed to fetch page:", err);
@@ -103,8 +117,10 @@ export async function getPage(req, res) {
 
 
 
+
 export async function deletePage(req, res) {
   try {
+    console.log("hey there!");
     const { pageId } = req.params;
 
     const pageRef = admin.firestore().collection("pages").doc(pageId);
@@ -123,5 +139,30 @@ export async function deletePage(req, res) {
   } catch (err) {
     console.error("Trash failed:", err);
     return res.status(500).json({ error: "Failed to move page to trash" });
+  }
+}
+
+
+export async function AllPages(req, res) {
+  try {
+    console.log("Hey");
+    const user = req.user;
+    const ownerId = user.uid;
+
+    console.log(user);
+    console.log(ownerId);
+    const pagesRef = admin.firestore().collection("pages");
+    const snapshot = await pagesRef.where("ownerId", "==", ownerId).where("isTrashed", "==", false).get();
+
+    if (snapshot.empty) {
+      return res.status(200).json({ message: "No pages found", pages: [] });
+    }
+
+    const pages = snapshot.docs.map(doc => doc.data());
+
+    return res.status(200).json({ message: "Pages fetched successfully", pages });
+  } catch (err) {
+    console.error("Failed to fetch pages:", err);
+    return res.status(500).json({ error: "Failed to fetch pages" });
   }
 }

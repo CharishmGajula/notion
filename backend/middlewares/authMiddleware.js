@@ -1,6 +1,7 @@
+import jwt from 'jsonwebtoken';
 export function authMiddleware(req,res,next)
 {
-    const authHeader=req.header["authorizartion"];
+    const authHeader=req.headers["authorization"];
     const token=authHeader && authHeader.split(' ')[1];
 
     if(token==null)
@@ -14,6 +15,6 @@ export function authMiddleware(req,res,next)
             return res.sendStatus(403); //Forbidden
         }
         req.user=user;
+        next();
     });
-    next();
 }

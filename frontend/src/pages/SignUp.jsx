@@ -71,8 +71,10 @@ export default function SignUp() {
     setErr("");
     return true;
   }
-  async function handleSubmit(e)
-  {
+
+
+    async function handleSubmit(e)
+    {
     e.preventDefault();
     const c=checkInput();
     if(!c)
@@ -108,19 +110,19 @@ export default function SignUp() {
 
         console.log("Registration successful:", result);
         navigate("/login");
+
     }catch(error)
     {
-        console.log(error);
-        
+        console.log(error);    
     }
   }
   return (
      <>
       <NavbarsignUp button="Log In" />
 
-      <div className="flex flex-col md:flex-row min-h-screen bg-white">
+      <div className="flex justify-around min-h-screen bg-white">
         <div className="flex flex-col justify-center items-start px-10 pb-2 md:w-1/2">
-          <h1 className="text-5xl font-extrabold text-black mb-6 leading-tight">
+          <h1 className="text-5xl font-extrabold text-black mb-6">
             The <span className="text-blue-600 font-bold">WORKSPACE</span> <br />
             that works for you!
           </h1>
@@ -181,7 +183,7 @@ export default function SignUp() {
 
               <button
                 type="submit"
-                className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900 transform hover:scale-105 transition duration-300"
+                className="p-10 bg-black text-white py-3 rounded-lg hover:bg-gray-900 "
               >
                 Submit
               </button>

@@ -1,21 +1,19 @@
 import { useState,useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Routes,Route } from 'react-router-dom'
+import { Routes,Route, Navigate } from 'react-router-dom'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import "./App.css"
 import Dashboard from './pages/Dashboard'
 import { useUser } from './Context/useContext'
-function App() {
+import BlockEditor2 from './Components/BlockEditor2'
+import Home from './pages/Home'
+function App(){
   const { setUser, setToken, logout } = useUser();
-
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    if (token) {
-      setToken(token); 
-
-      fetch("http://localhost:5005/api/auth/me", {
+  const token = localStorage.getItem("jwtToken");
+  if (token) {
+    setToken(token); 
+    fetch("http://localhost:5005/api/auth/me", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -44,7 +42,8 @@ function App() {
       <Routes>
         <Route path="/" element={<SignUp/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/home" element={<Home/>}/>
+        <Route path='/page/:pageId' element={<Dashboard/>}/>
       </Routes>
     </>
   )

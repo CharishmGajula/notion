@@ -7,6 +7,7 @@ export const registerSchema = z.object({
 
 export const createSchema=z.object({
     title:z.string().trim().max(50),
+    parentPageId:z.string().trim().optional(),
 })
 
 
