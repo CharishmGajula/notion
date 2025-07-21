@@ -85,7 +85,7 @@ export default function Login() {
               Access your workspace and stay organized, focused, and inspired.
             </p>
           </div>
-          <img src={img1} alt="Login Visual" className="w-[80%] max-w-md" />
+          <img src="https://cdn.dribbble.com/userupload/22345329/file/original-4780b15a91f6c39007501637977be566.gif" alt="Login Visual" className="w-[80%] max-w-md" />
         </div>
 
         <div className="w-[380px] bg-white shadow-md rounded-xl p-8 border border-gray-200 mr-20">

@@ -1,9 +1,11 @@
-import {admin} from "../firebase-admin.js";
+const { admin } = require("../firebase-admin");
 
-export const checkPageAccess = (allowedRoles = []) => async (req, res, next) => {
+const checkPageAccess = (allowedRoles = []) => async (req, res, next) => {
   const uid = req.user.uid;
+  const email = req.user.email;
   const { pageId } = req.params;
 
+  console.log(email);
   try {
     const doc = await admin.firestore().collection("pages").doc(pageId).get();
 
@@ -16,15 +18,17 @@ export const checkPageAccess = (allowedRoles = []) => async (req, res, next) => 
       return next();
     }
 
-    const role = page.sharedWith?.[uid];
+    const role = page.sharedWith?.[email];
     if (allowedRoles.includes(role)) {
       req.page = page;
       return next();
     }
-
+    console.log("yeah me");
     return res.status(403).json({ error: "Access denied" });
   } catch (err) {
     console.error("Role check error:", err);
     return res.status(500).json({ error: "Server error" });
   }
 };
+
+module.exports = { checkPageAccess };

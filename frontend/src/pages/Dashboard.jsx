@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
-import BlockEditor2 from '../Components/BlockEditor2';
+import BlockEditor3 from '../Components/Block1.jsx';
+import MainPage from './MainPage.jsx';
 
 export default function Dashboard() {
   const [sidebarWidth, setSidebarWidth] = useState(200);
@@ -49,7 +50,7 @@ export default function Dashboard() {
       </aside>
 
       <main className="flex-1 bg-white text-black overflow-y-auto  py-12 transition-all duration-300">
-        <BlockEditor2 defaultTitle="Getting Started" />
+        <MainPage defaultTitle="Getting Started" />
       </main>
     </div>
   );

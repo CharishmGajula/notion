@@ -11,6 +11,7 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [pages, setPages] = useState([]);
+  const [showShare,setShowShare]=useState(false);
 
   useEffect(() => {
     async function fetchPages() {
@@ -48,7 +49,7 @@ export function UserProvider({ children }) {
 
   return (
     <userContext.Provider
-      value={{user,setUser,token,setToken,pages,setPages,logout,}}
+      value={{user,setUser,token,setToken,pages,setPages,logout,showShare,setShowShare}}
     >
       {children}
     </userContext.Provider>

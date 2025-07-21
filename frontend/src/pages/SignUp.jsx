@@ -122,14 +122,13 @@ export default function SignUp() {
 
       <div className="flex justify-around min-h-screen bg-white">
         <div className="flex flex-col justify-center items-start px-10 pb-2 md:w-1/2">
-          <h1 className="text-5xl font-extrabold text-black mb-6">
-            The <span className="text-blue-600 font-bold">WORKSPACE</span> <br />
-            that works for you!
+          <h1 className="text-3xl font-extrabold text-black mb-6 ">
+            HEY YOU!!? ARE YOU REALLY GONNA  <span className="text-blue-600 font-bold">STUDY!!</span> SERIOUSLYY????
           </h1>
-          <p className="text-lg text-gray-700">
-            Behind every productive person is a <span className="font-semibold text-blue-600">SYSTEM</span> that works. 
-            With <span className="font-semibold text-blue-600">Notion</span>, that system is simple, beautiful, and uniquely yours.
-          </p>
+          <p className="text-lg text-gray-800">
+            It's okie! We are here to make this <span className="font-semibold text-blue-600"> FUN</span><br/></p>
+          <p className='text-md text-gray-700'>Y STUDYING ALONE! DRAG YOUR FRIEND !! STUDY TOGETHER AND BREAK THE RANKS TOGETHER!</p>
+          <img src="https://media.tenor.com/JBlBoDxklGwAAAAM/eye-looking-around.gif" alt="eysImg" className='ml-30' />
         </div>
 
         <div className="flex justify-center min-h-screen items-center px-6 py-16 md:w-1/2 bg-white">

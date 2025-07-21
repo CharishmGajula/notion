@@ -6,7 +6,6 @@ export function InnerPages({ parentId = 'root', gPages }) {
   const children = gPages[parentId] || [];
   const navigate = useNavigate();
 
-
   return (
     <div className="ml-2 mb-1">
     {children.map((page) => (
@@ -15,11 +14,11 @@ export function InnerPages({ parentId = 'root', gPages }) {
         <div className="flex items-center justify-between text-sm py-1">
           <div 
             onClick={() => navigate(`/page/${page.pageId}`)}
-            title={page.title || 'Untitled'}
+            title={page.title}
             className="flex items-center gap-2 text-md cursor-pointer hover:underline truncate"
           >
             <FaRegFileAlt className="relative"/>
-            <span>{page.title || 'Untitled'}</span>
+            <span>{page.title }</span>
           </div>
           <CreatePage pageId={page.pageId} button="true" />
         </div>

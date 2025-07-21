@@ -1,8 +1,7 @@
-// backend/utils/getUser.js
-import { db } from "../firebase-admin.js"; // import initialized db
-import admin from "firebase-admin"; 
+const admin = require("firebase-admin");
+const { db } = require("../firebase-admin"); 
 
-export async function getUser(uid) {
+async function getUser(uid) {
   try {
     const userRef = admin.firestore().doc(`users/${uid}`);
     const userSnap = await userRef.get();
@@ -18,10 +17,7 @@ export async function getUser(uid) {
   }
 }
 
-
-// backend/utils/getUser.js
-
-export async function getName(uid) {
+async function getName(uid) {
   try {
     const userRef = admin.firestore().doc(`users/${uid}`);
     const userSnap = await userRef.get();
@@ -36,3 +32,5 @@ export async function getName(uid) {
     return null;
   }
 }
+
+module.exports = { getUser, getName };

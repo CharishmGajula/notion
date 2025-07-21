@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import { useUser } from './Context/useContext'
 import BlockEditor2 from './Components/BlockEditor2'
 import Home from './pages/Home'
+import Forbiden from './pages/Forbiden'
 function App(){
   const { setUser, setToken, logout } = useUser();
   useEffect(() => {
@@ -44,6 +45,7 @@ function App(){
         <Route path="/login" element={<Login/>}/>
         <Route path="/home" element={<Home/>}/>
         <Route path='/page/:pageId' element={<Dashboard/>}/>
+        <Route path="/not-allowed" element={<Forbiden/>}/>
       </Routes>
     </>
   )
