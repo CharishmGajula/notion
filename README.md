@@ -1,15 +1,18 @@
 # NOTION.IO CLONE
 ## TECH STACK
----> FRONTEND ---> REACT
----> BACKEND --->  EXPRESS
----> DATABASE ---> FIREBASE
----> AUTHENTICATION --> FIREBASE
+<pre>
+	---> FRONTEND ---> REACT
+	---> BACKEND --->  EXPRESS
+	---> DATABASE ---> FIREBASE
+	---> AUTHENTICATION --> FIREBASE
+</pre>
 
 ## SET UP
-GO TO -->/frontend --> npm install --> npm run dev
-GO TO -->/frontend/y-webrtc --> npm install --> node ./bin/server.js
-GO TO -->/backend --> npm install --> node index.js
-
+<pre>
+	GO TO -->/frontend --> npm install --> npm run dev
+	GO TO -->/frontend/y-webrtc --> npm install --> node ./bin/server.js
+	GO TO -->/backend --> npm install --> node index.js
+</pre>
 
 ## EXECUTION PLAN
 <pre>
