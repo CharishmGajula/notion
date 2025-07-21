@@ -114,49 +114,9 @@ function AuthenticateAndSendData(req, res) {
   }
 }
 
-async function getPublicPage(req, res) {
-  try {
-    const { pageId } = req.params;
-
-    const pageRef = admin.firestore().collection("pages").doc(pageId);
-    const pageDoc = await pageRef.get();
-
-    if (!pageDoc.exists) {
-      return res.status(404).json({ error: "Page not found" });
-    }
-
-    const page = pageDoc.data();
-
-    if (!page.isPublic) {
-      return res.status(403).json({ error: "This page is not public" });
-    }
-
-    // Fetch children
-    const childSnap = await admin.firestore()
-      .collection("pages")
-      .where("parentPageId", "==", pageId)
-      .where("isTrashed", "==", false)
-      .get();
-
-    const children = childSnap.docs.map(doc => ({
-      pageId: doc.id,
-      ...doc.data()
-    }));
-
-    return res.status(200).json({
-      page: { pageId, ...page },
-      children
-    });
-
-  } catch (err) {
-    console.error("Public page fetch error:", err);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-}
 
 module.exports = {
   loginUser,
   registerUser,
   AuthenticateAndSendData,
-  getPublicPage
 };

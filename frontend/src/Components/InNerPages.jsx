@@ -7,9 +7,9 @@ export function InnerPages({ parentId = 'root', gPages }) {
   const navigate = useNavigate();
 
   return (
-    <div className="ml-2 mb-1">
+    <div className="ml-2 mb-1 ">
     {children.map((page) => (
-    <div key={page.pageId}>
+    <div key={page.pageId} >
       {!page.isTrashed && (
         <div className="flex items-center justify-between text-sm py-1">
           <div 

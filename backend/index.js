@@ -9,8 +9,10 @@ const {
   applyAwarenessUpdate,
   encodeAwarenessUpdate,
 } = require("y-protocols/awareness");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger"); 
 
-// Your REST routes
+
 const authRouter = require("./routes/auth.routes");
 const pageRouter = require("./routes/page.routes");
 
@@ -25,23 +27,21 @@ const io = new Server(server, {
   },
 });
 
-// Middleware
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 
-// REST API Routes
 app.use("/api/auth", authRouter);
 app.use("/api/pages", pageRouter);
 
-// Room awareness and Y.Doc storage
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 const docs = new Map();
 
 io.on("connection", (socket) => {
   const room = socket.handshake.query.room || "default-room";
-  console.log(`✅ Socket connected to room: ${room}`);
+  console.log(`Socket connected to room: ${room}`);
   socket.join(room);
 
-  // Create Y.Doc and Awareness if room is new
   if (!docs.has(room)) {
     const ydoc = new Y.Doc();
     const awareness = new Awareness(ydoc);
@@ -50,27 +50,24 @@ io.on("connection", (socket) => {
 
   const { ydoc, awareness } = docs.get(room);
 
-  // 🧠 Awareness handling
   socket.on("awareness", (update) => {
     try {
       const uint8 = new Uint8Array(update);
       applyAwarenessUpdate(awareness, uint8, socket.id);
       socket.to(room).emit("awareness", update);
     } catch (err) {
-      console.error("❌ Awareness error:", err);
+      console.error(" Awareness error:", err);
     }
   });
 
-  // 📄 Document content sync
   socket.on("update", (update) => {
     try {
       socket.to(room).emit("update", update);
     } catch (err) {
-      console.error("❌ Update sync error:", err);
+      console.error(" Update sync error:", err);
     }
   });
 
-  // 🧱 Block updates
   socket.on("send-update", ({ pageId, blockId, content }) => {
     socket.to(pageId).emit("receive-update", { blockId, content });
   });
@@ -83,7 +80,6 @@ io.on("connection", (socket) => {
     socket.to(pageId).emit("block-deleted", { blockId });
   });
 
-  // ✅ Room Join/Leave
   socket.on("join-page", (pageId) => {
     socket.join(pageId);
     console.log(`User ${socket.id} joined page room: ${pageId}`);

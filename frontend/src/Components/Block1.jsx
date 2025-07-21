@@ -11,14 +11,10 @@ import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 import CollaborationCaret from '@tiptap/extension-collaboration-caret'
 import { useUser } from "../Context/useContext.jsx";
 
-// import { createProvider } from "../yProvider.js"; 
-
 
 export default function Block1({ editorRef, setEditorContent,startingData,ydoc,provider }) {
-  // const { ydoc, provider } = createProvider(pageId);
-  const user=useUser();
+  const {user}=useUser();
   const {pages}=useUser();
-  console.log(startingData);
   const [showSelectionBox, setShowSelectionBox] = useState(false);
   const {showShare}=useUser();
   
@@ -40,7 +36,6 @@ export default function Block1({ editorRef, setEditorContent,startingData,ydoc,p
       onUpdate: ({ editor }) => {
         const json = editor.getJSON();
         setEditorContent(json);
-        console.log("Updated content:", json);
       },
       editorProps: {
         attributes: {

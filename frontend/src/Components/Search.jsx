@@ -29,8 +29,8 @@ export default function Search() {
 
   function handlePageClick(pageId) {
     navigate(`/page/${pageId}`);
-    setFilteredPages([]); // hide the result list
-    setSearch('');        // clear the input (optional)
+    setFilteredPages([]); 
+    setSearch('');        
   }
 
   return (

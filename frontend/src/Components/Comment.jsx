@@ -60,7 +60,6 @@ export default function Comment() {
 
   return (
     <div className="relative inline-block">
-      {/* Toggle Button */}
       <button
         onClick={handleToggle}
         className="ml-2 px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"

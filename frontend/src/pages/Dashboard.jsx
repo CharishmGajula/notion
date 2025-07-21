@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
-import BlockEditor3 from '../Components/Block1.jsx';
 import MainPage from './MainPage.jsx';
 
 export default function Dashboard() {
-  const [sidebarWidth, setSidebarWidth] = useState(200);
+  const [sidebarWidth, setSidebarWidth] = useState(240); // Start with cleaner default
   const resizerRef = useRef(null);
   const isDragging = useRef(false);
 
@@ -19,7 +18,7 @@ export default function Dashboard() {
   const resize = (e) => {
     if (isDragging.current) {
       const newWidth = e.clientX;
-      if (newWidth > 150 && newWidth < 330) {
+      if (newWidth > 180 && newWidth < 360) {
         setSidebarWidth(newWidth);
       }
     }
@@ -35,9 +34,9 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="flex h-screen w-full bg-black text-white">
+    <div className="flex h-screen w-full bg-zinc-900 text-white overflow-hidden">
       <aside
-        className="bg-black h-full relative border-r border-gray-800"
+        className="relative h-full border-r border-zinc-700 transition-all duration-300"
         style={{ width: `${sidebarWidth}px` }}
       >
         <Sidebar />
@@ -45,11 +44,11 @@ export default function Dashboard() {
         <div
           ref={resizerRef}
           onMouseDown={startResizing}
-          className="absolute top-0 right-0 h-full w-1 cursor-col-resize bg-gray-700 hover:bg-white transition-all"
+          className="absolute top-0 right-0 h-full w-[4px] cursor-col-resize bg-zinc-600 hover:bg-zinc-400 transition-colors"
         />
       </aside>
 
-      <main className="flex-1 bg-white text-black overflow-y-auto  py-12 transition-all duration-300">
+      <main className="flex-1 bg-white text-black overflow-y-auto px-6 py-8">
         <MainPage defaultTitle="Getting Started" />
       </main>
     </div>

@@ -129,7 +129,6 @@ useEffect(() => {
         <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded p-4 z-20 space-y-4 text-sm">
           <h2 className="font-semibold text-base">Want to share your doc?</h2>
 
-          {/* Add email + role */}
           <div>
             <p className="mb-1 font-medium">People</p>
             <div className="flex gap-2 mb-2">
@@ -149,7 +148,6 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* List of shared users */}
           {sharedUsers.map((user, index) => (
             <div key={index} className="flex gap-2 justify-between items-center">
               <span className="truncate w-1/2">{user.email}</span>
@@ -170,7 +168,6 @@ useEffect(() => {
             </div>
           ))}
 
-          {/* Global access dropdown */}
           <div>
             <p className="mt-4 font-medium">Share settings:</p>
             <select
@@ -183,7 +180,6 @@ useEffect(() => {
             </select>
           </div>
 
-          {/* COPY + SHARE BUTTONS */}
           <div className="flex justify-between items-center">
             <button
               onClick={handleCopyUrl}

@@ -9,6 +9,7 @@ import Comment from '../Components/Comment';
 import { useNavigate } from 'react-router-dom';
 import * as Y from "yjs";
 import { WebrtcProvider } from "y-webrtc";
+import Online from '../Components/Online';
 
 
 export default function MainPage() {
@@ -20,6 +21,7 @@ export default function MainPage() {
     const [startingData,setStartingData]=useState(null);
     const [childPages,setChildPages]=useState([]);
     const navigate=useNavigate();
+    const [online,setOnline]=useState([]);
     
     const ydocRef = useRef(null);
     const providerRef = useRef(null);
@@ -46,9 +48,29 @@ export default function MainPage() {
 
     const ydoc = ydocRef.current;
     const provider = providerRef.current;
-    const awareness = provider?.awareness;
+    // const awareness = provider?.awareness;
 
     const generateId = () => Date.now() + Math.floor(Math.random() * 1000);
+
+    useEffect(() => {
+  if (!provider) return;
+
+  const awareness = provider?.awareness;
+
+  const updateOnlineUsers = () => {
+    const states = Array.from(awareness.getStates().values());
+    setOnline(states);
+    console.log(states);
+  };
+
+  awareness.on("change", updateOnlineUsers);
+  updateOnlineUsers(); 
+
+  return () => {
+    awareness.off("change", updateOnlineUsers);
+  };
+}, [provider]);
+
 
     useEffect(() => {
         if (provider) {
@@ -69,7 +91,7 @@ export default function MainPage() {
     useEffect(() => {
         if (!provider) return;
         const onPeersChanged = () => {
-        console.log('Connected peers:', provider.webrtcConnections.size);
+        console.log('Connected peers:', provider?.webrtcConnections.size);
     };
         provider.on('peers', onPeersChanged);
         return () => provider.off('peers', onPeersChanged);
@@ -167,6 +189,7 @@ export default function MainPage() {
   return (
     <>
     <div className="w-full flex justify-end px-4 pt-4">
+        <Online online={online}/>
         <ShareBar />
          <Comment />
     </div>
